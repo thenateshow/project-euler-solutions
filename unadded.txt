@@ -1,0 +1,428 @@
+
+15
+function lattice(right, down, val)
+{
+	if(right == val || down == val){
+		return 1;
+	}
+//  else if(right == val){
+//    return lattice(right, down+1, val);
+//  }
+//  else if(down == val){
+//    return lattice(right+1, down, val);
+//  }
+	else{
+		return lattice(right+1, down, val) + lattice(right, down+1, val);
+	}
+}
+
+function test()
+{
+	for(var i = 1; i <= 10; i++){
+		Log.Message(lattice(0, 0, i));
+	}
+}
+
+52
+var answer = 16700000;
+var found = false;
+
+function multiples()
+{
+	while(!found){
+		answer++;
+		if(answer % 1000000 == 0){
+			Log.Message(answer);
+		}
+		if(otherChecks(answer)&&checkSix(answer)){
+			checkAll(answer);
+		}
+	}
+	Log.Message(answer);
+}
+
+function otherChecks(num)
+{
+	var str = "" + num;
+	if(str.charAt(0)!='1'){
+		return false;
+	}
+	return true;
+}
+
+function checkSix(num){
+	var str = "" + num;
+	if(str.charAt(1)=='7'||str.charAt(1)=='8'||str.charAt(1)=='9'){
+		return false;
+	}
+	return true;
+}
+
+function checkAll(num){
+	if(!(checkSix(num*2)&&checkSix(num*3)&&checkSix(num*4)&&checkSix(num*5)&&checkSix(num*6))){
+		return false;
+	}
+	
+	for(var i = 0; i <= 9; i++){
+		if(checkDigits(num, num*2, i)
+				&&checkDigits(num, num*3, i)
+				&&checkDigits(num, num*4, i)
+				&&checkDigits(num, num*5, i)
+				&&checkDigits(num, num*6, i)){
+					
+		}
+		else{
+			return false;
+		}
+	}
+	found = true;
+	return true;
+}
+
+function checkDigits(num1, num2, dig){
+	if(countDigits(num1, dig) == countDigits(num2, dig)){
+		return true;
+	}
+	return false;
+}
+
+function countDigits(num, dig){
+	var count = 0;
+	var digChar = ("" + dig).charAt(0);
+	var str = "" + num;
+	for(var i = 0; i < str.length; i++){
+		if(str.charAt(i) == digChar){
+			count++;
+		}
+	}
+	return count;
+}
+
+function test(){
+	for(var i = 0; i < 1000; i++){
+		if(checkSix(i)){
+			Log.Message(i);
+		}
+	}
+}
+
+
+58
+function spiralPrimes()
+{
+	var numCorners = 19077;
+	var numPrimes = 2148;
+	var currLayer = 9539;
+	while((numPrimes/numCorners) >= .1){
+		currLayer+=2;
+		numCorners++;
+		for(var i = 1; i < 4; i++){
+			if(checkPrime(Math.pow(currLayer, 2) - i*currLayer + i)){
+				numPrimes++;
+			}
+			numCorners++;
+		}
+		Log.Message(numPrimes/numCorners);
+	}
+	Log.Message(currLayer);
+	Log.Message(numCorners);
+	Log.Message(numPrimes);
+}
+
+function checkPrime(num){
+	if(num % 3 == 0 || num % 5 == 0 || num % 7 == 0 || num % 11 == 0){
+		return false;
+	}
+	for(var i = 3; i < num; i+=2){
+		if(num % i == 0){
+			return false;
+		}
+	}
+	return true;
+}
+
+
+
+
+
+
+
+
+
+
+112
+function bouncy()
+{
+	var prop = .9;
+	var num = 21780;
+	var numB = 19602;
+	while(prop != .99){
+		num++;
+		if(checkBouncy(num)){
+			numB++;
+		}
+		Log.Message(prop);
+		prop = numB/num;
+	}
+	Log.Message(num);
+}
+
+function checkBouncy(num)
+{
+	var str = "" + num;
+	var up = false;
+	var down = false;
+	for(var i = 0; i < str.length - 1; i++){
+		var first = parseInt("" + str.charAt(i));
+		var second = parseInt("" + str.charAt(i + 1));
+		if(first < second){
+			up = true;
+		}
+		else if(second < first){
+			down = true;
+		}
+		if(up && down){
+			return true;
+		}
+	}
+	return false;
+}
+
+
+
+
+
+
+145
+function howMany()
+{
+	var count = 0;
+	for(var i = 1; i < 1000000000; i++){
+		startChecks(i);
+		if(i % 10000 == 0){
+			Log.Message(i);
+		}
+	}
+}
+
+function findReverse(num)
+{
+	var rev = "";
+	var num = num + "";
+	for(var i = num.length - 1; i >= 0; i++){
+		rev += num.charAt(i);
+	}
+	return rev;
+}
+
+function startChecks(num)
+{
+	if(num % 10 == 0){
+		return false;
+	}
+	if(!diffType(num)){
+		return false;
+	}
+	return true;
+}
+
+function diffType(num){
+	return (num % 2 == 0 && parseInt("" + ("" + num).charAt(0)) % 2 != 0) || (num % 2 != 0 && parseInt("" + ("" + num).charAt(0)) % 2 == 0);
+}
+
+
+
+
+
+
+206
+function concealedSquare()
+{
+	for(var i = 1010101010; i <= 1389026625; i+=10){
+		if(checkDigits(i*i)){
+			Log.Message(i);
+			return i;
+		}
+	}
+}
+
+function checkDigits(num)
+{
+	var str = "" + num;
+	var digit = 1;
+	if(str.charAt(0) == '2'){
+		Log.Message(str);
+	}
+	if(str.charAt(16) != '9'){
+		return false;
+	}
+	for(var i = 0; i <= 14; i+=2){
+		if(("" + str.charAt(i)) !== ("" + digit)){
+			return false;
+		}
+		if(digit >= 7){
+			Log.Message(Math.sqrt(num));
+			Log.Message(str);
+		}
+		digit++;
+	}
+	return true;
+}
+
+
+
+
+
+
+
+
+
+
+377
+var total = 0;
+var count = 0;
+
+function sumOfDigits()
+{
+	for(var i = 1; i <= 2; i++){
+		Log.Message(i);
+		for(var j = 9; j <= 81; j++){
+			countTimes("", Math.pow(13, i) - j, Math.pow(13, i) - 9);
+		}
+		Log.Message(count);
+		//go("", Math.pow(13, i));
+	}
+	Log.Message(total);
+}
+
+function countTimes(num, goal, digits){
+	if(goal == 0){
+		if(num.length < digits){
+			count++;
+		}
+	}
+	else if(goal < 10){
+		for(var i = 1; i <= goal; i++){
+			countTimes(""+i+num, goal - i, digits);
+		}
+	}
+	else{
+		for(var i = 1; i <= 9; i++){
+			countTimes(""+i+num, goal - i, digits);
+		}
+	}
+}
+
+function go(num, goal){
+	if(goal == 0){
+		getNum(num);
+	}
+	else if(goal < 10){
+		for(var i = 1; i <= goal; i++){
+			go(""+i+num, goal - i);
+		}
+	}
+	else{
+		for(var i = 1; i <= 9; i++){
+			go(""+i+num, goal - i);
+		}
+	}
+}
+
+
+
+
+
+//var total = 0;
+//
+//function sumOfDigits()
+//{
+//  for(var i = 1; i <= 1; i++){
+//    Log.Message(i);
+//    go("", Math.pow(13, i));
+//  }
+//  Log.Message(total);
+//}
+//
+//function go(num, goal){
+//  if(goal == 0){
+//    getNum(num);
+//  }
+//  else if(goal < 10){
+//    for(var i = 1; i <= goal; i++){
+//      go(""+i+num, goal - i);
+//    }
+//  }
+//  else{
+//    for(var i = 1; i <= 9; i++){
+//      go(""+i+num, goal - i);
+//    }
+//  }
+//}
+//
+//function getNum(num){
+//  if(num.length > 9){
+//    total += parseInt(num.substring(num.length - 9));
+//  }
+//  else{
+//    total += parseInt(num);
+//  }
+//  total = parseInt(("" + total).substring(("" + total).length - 9));
+//}
+//
+//
+//
+//function sumOfDigits()
+//{
+//  sum = 0;
+//  for(var i = 1; i <= 1; i++){
+//    sum += parseInt(find(Math.pow(13, i)));
+//  }
+//  Log.Message(sum);
+//}
+//
+//function find(goal){
+//  if(goal == 0){
+//    return "0";
+//  }
+//  else if(goal < 10){
+//    for(var i = 1; i <= goal; i++){
+//      return "" + find(goal - i) + ("" + i);
+//    }
+//  }
+//  else{
+//    for(var i = 1; i <= 9; i++){
+//      return "" + find(goal - i) + ("" + i);
+//    }
+//  }
+//}
+//
+//function sumOfDigits()
+//{
+//  var sum = 0;
+//  var currMax = "";
+//  var maxNum;
+//  for(var i = 1; i <= 17; i++){
+//    for(var j = 0; j < Math.pow(13, i); j++){
+//      currMax+="1";
+//    }
+//    maxNum = parseInt(currMax);
+//    for(var j = Math.pow(13, i-1); j <= maxNum; j++){
+//      if((!(""+j).includes("0"))&&addDigits(j)==Math.pow(13, i)){
+//        sum+=j;
+//        Log.Message(j);
+//      }
+//    }
+//    Log.Message(i);
+//  }
+//  Log.Message(sum);
+//}
+//
+//function addDigits(num){
+//  if((""+num).length<=1){
+//    return num;
+//  }
+//  else{
+//    return num%10+addDigits(Math.floor(num/10));
+//  }
+//}
